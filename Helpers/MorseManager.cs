@@ -7,7 +7,7 @@ public class MorseManager
 {
     private const int NumberGapSounds = 8;
     private const int NumberDotSounds = 3;
-    private const int NumberDashSounds = 3;
+    private const int NumberDashSounds = 4;
 
     private const float SymbolGapTime = 0.15f;
     private const char Dot = '.';
