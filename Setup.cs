@@ -7,9 +7,9 @@ namespace LD60;
 public partial class Setup : Control
 {
     [Export]
-    public Button ProceedButton { get; set; }
+    public Button? ProceedButton { get; set; }
 
-    private MorseManager _morseManager;
+    private MorseManager? _morseManager;
 
     private int _delay = 2;
 
@@ -24,7 +24,7 @@ public partial class Setup : Control
         MorseManagerOnQueueCompleted(this, EventArgs.Empty);
     }
 
-    private void MorseManagerOnQueueCompleted(object sender, EventArgs e)
+    private void MorseManagerOnQueueCompleted(object? sender, EventArgs e)
     {
         if (_delay > 0)
         {
@@ -39,12 +39,12 @@ public partial class Setup : Control
         }
 
         // Put a small gap before we start again
-        _morseManager.Queue(" SOS");
+        _morseManager?.Queue(" SOS");
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        _morseManager.Process(delta);
+        _morseManager?.Process(delta);
     }
 }

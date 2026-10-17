@@ -11,6 +11,7 @@
         <!-- Keep nested host projects out of the default compile/content globs (their .gdignore hides them
              from the Godot editor) -->
         <DefaultItemExcludes>$(DefaultItemExcludes);LD60.web/**</DefaultItemExcludes>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="2dog.godotsharp" Version="$(TwoDogVersion)" />

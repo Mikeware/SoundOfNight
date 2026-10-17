@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace LD60.Helpers;
 
-public class MorseManager
+public class MorseManager(AudioManager audioManager)
 {
     private const int NumberGapSounds = 8;
     private const int NumberDotSounds = 3;
@@ -16,19 +16,13 @@ public class MorseManager
     private const int LetterGaps = 3;
     private const int WordGaps = 7;
 
-    private AudioManager _audioManager;
     private double _beat = 0;
     private int _delay = 0;
 
     // Represents stream of '.', '-', or ' ' (symbol gap) to transmit audio of morse code
-    private Queue<char> _encodedQueue = new(64);
+    private readonly Queue<char> _encodedQueue = new(64);
 
-    public event EventHandler QueueCompleted;
-
-    public MorseManager(AudioManager audioManager)
-    {
-        _audioManager = audioManager;
-    }
+    public event EventHandler? QueueCompleted;
 
     public void Queue(string phrase)
     {
@@ -90,12 +84,12 @@ public class MorseManager
                 if (symbol == Dot)
                 {
                     playedSymbol = true;
-                    _audioManager.Play($"res://sounds/dot{Random.Shared.Next(NumberDotSounds)}.wav", true, 0.99f + Random.Shared.NextSingle() / 50f, 0.95f + Random.Shared.NextSingle() / 10f);
+                    audioManager.Play($"res://sounds/dot{Random.Shared.Next(NumberDotSounds)}.wav", true, 0.99f + Random.Shared.NextSingle() / 50f, 0.95f + Random.Shared.NextSingle() / 10f);
                 }
                 else if (symbol == Dash)
                 {
                     playedSymbol = true;
-                    _audioManager.Play($"res://sounds/dash{Random.Shared.Next(NumberDashSounds)}.wav", true, 0.99f + Random.Shared.NextSingle() / 50f, 0.95f + Random.Shared.NextSingle() / 10f);
+                    audioManager.Play($"res://sounds/dash{Random.Shared.Next(NumberDashSounds)}.wav", true, 0.99f + Random.Shared.NextSingle() / 50f, 0.95f + Random.Shared.NextSingle() / 10f);
                     _delay = 3;
                 }
 
@@ -108,7 +102,7 @@ public class MorseManager
             if (!playedSymbol)
             {
                 // Play random background gap sounds otherwise
-                _audioManager.Play($"res://sounds/gap{Random.Shared.Next(NumberGapSounds)}.wav", true, 0.9f + Random.Shared.NextSingle() / 5f, 0.5f + Random.Shared.NextSingle() / 10f);
+                audioManager.Play($"res://sounds/gap{Random.Shared.Next(NumberGapSounds)}.wav", true, 0.9f + Random.Shared.NextSingle() / 5f, 0.5f + Random.Shared.NextSingle() / 10f);
             }
         }
     }
