@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://bf3xaaoxstfsn"]
+
+[ext_resource type="Script" uid="uid://u41j74ib3koa" path="res://Shell.cs" id="1_6fuaf"]
+[ext_resource type="PackedScene" uid="uid://bep0xxehcp1tv" path="res://setup.tscn" id="2_2e587"]
+[ext_resource type="Shader" uid="uid://clkag1h55ar3d" path="res://transition.gdshader" id="2_et3vo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_et3vo"]
+shader = ExtResource("2_et3vo")
+shader_parameter/cell_size = 32.0
+shader_parameter/progress = 0.0
+shader_parameter/dot_color = Color(0, 0.36078432, 0.49803922, 1)
+shader_parameter/inverted = false
+
+[node name="Shell" type="Control" unique_id=1950343236 node_paths=PackedStringArray("SceneHost")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_6fuaf")
+InitialScene = ExtResource("2_2e587")
+TransitionMaterial = SubResource("ShaderMaterial_et3vo")
+TransitionHalfDuration = 5.0
+SceneHost = NodePath("SceneHost")
+
+[node name="SceneHost" type="Control" parent="." unique_id=1927075393]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SceneTransitionRect" type="ColorRect" parent="." unique_id=2127851482]
+material = SubResource("ShaderMaterial_et3vo")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Godot;
 using LD60.Helpers;
 
@@ -6,6 +7,9 @@ namespace LD60;
 
 public partial class Setup : Control
 {
+    [Export(PropertyHint.File, "*.tscn")]
+    public string NextScenePath { get; set; } = "res://scenes/tutorial.tscn";
+
     [Export]
     public Button? ProceedButton { get; set; }
 
@@ -22,6 +26,8 @@ public partial class Setup : Control
 
         // Kick us off
         MorseManagerOnQueueCompleted(this, EventArgs.Empty);
+
+        Shell.Instance?.PreloadScene(NextScenePath);
     }
 
     private void MorseManagerOnQueueCompleted(object? sender, EventArgs e)
@@ -46,5 +52,11 @@ public partial class Setup : Control
     public override void _Process(double delta)
     {
         _morseManager?.Process(delta);
+    }
+
+    public void OnProceedButtonPressed()
+    {
+        ProceedButton?.Disabled = true;
+        Shell.Instance?.TransitionTo(NextScenePath);
     }
 }

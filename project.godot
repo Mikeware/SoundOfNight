@@ -13,7 +13,7 @@ custom_features="dotnet"
 [application]
 
 config/name="LD60"
-run/main_scene="res://setup.tscn"
+run/main_scene="uid://bf3xaaoxstfsn"
 config/features=PackedStringArray("4.7", "C#")
 
 [autoload]

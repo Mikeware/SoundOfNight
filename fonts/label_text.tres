@@ -1,7 +1,0 @@
-[gd_resource type="LabelSettings" format=3 uid="uid://drwm23arysq7r"]
-
-[ext_resource type="FontFile" uid="uid://cax352uxjbi47" path="res://fonts/CallingCode-Regular.ttf" id="1_4fajk"]
-
-[resource]
-font = ExtResource("1_4fajk")
-font_size = 18

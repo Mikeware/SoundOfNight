@@ -4,7 +4,6 @@
 [ext_resource type="LabelSettings" uid="uid://y4ulh8edh65x" path="res://fonts/label_title.tres" id="1_mpvgy"]
 [ext_resource type="Theme" uid="uid://bxctn28btu3wo" path="res://resources/default_theme.tres" id="1_mvs7q"]
 [ext_resource type="LabelSettings" uid="uid://bn7ygyk5vijyv" path="res://fonts/label_morse_accent.tres" id="2_11tsp"]
-[ext_resource type="LabelSettings" uid="uid://drwm23arysq7r" path="res://fonts/label_text.tres" id="3_mvs7q"]
 
 [node name="Main" type="Control" unique_id=1150417971 node_paths=PackedStringArray("ProceedButton")]
 layout_mode = 3
@@ -15,6 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_mvs7q")
 script = ExtResource("1_11tsp")
+NextScenePath = "uid://bikrw26n7w6kv"
 ProceedButton = NodePath("CenterContainer/Content/ProceedButton")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1413656032]
@@ -46,10 +46,11 @@ layout_mode = 2
 text = "- This game requires SOUND -
 Please turn on your Speakers!
 - You should hear sounds -"
-label_settings = ExtResource("3_mvs7q")
 horizontal_alignment = 1
 
 [node name="ProceedButton" type="Button" parent="CenterContainer/Content" unique_id=696505860]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 text = "I'M HEAR TO HELP"
+
+[connection signal="pressed" from="CenterContainer/Content/ProceedButton" to="." method="OnProceedButtonPressed"]
