@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bep0xxehcp1tv"]
 
+[ext_resource type="Script" uid="uid://cebqd7ib5qq6o" path="res://Setup.cs" id="1_11tsp"]
 [ext_resource type="LabelSettings" uid="uid://y4ulh8edh65x" path="res://fonts/label_title.tres" id="1_mpvgy"]
 [ext_resource type="LabelSettings" uid="uid://bn7ygyk5vijyv" path="res://fonts/label_morse_accent.tres" id="2_11tsp"]
 [ext_resource type="LabelSettings" uid="uid://drwm23arysq7r" path="res://fonts/label_text.tres" id="3_mvs7q"]
@@ -11,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_11tsp")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1413656032]
 layout_mode = 1

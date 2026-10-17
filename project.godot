@@ -16,6 +16,10 @@ config/name="LD60"
 run/main_scene="res://setup.tscn"
 config/features=PackedStringArray("4.7", "C#")
 
+[autoload]
+
+AudioManager="*uid://cs84s2kqt888l"
+
 [display]
 
 window/size/viewport_width=640

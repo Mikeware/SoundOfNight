@@ -29,6 +29,9 @@ WC Fonts / Atypeek
 
 * Libraries & Tools *
 
+increpare/bfxr2 (bfxr.net)
+GitHub repo - MIT License
+
 outfox/2dog (2dog.dev)
 GitHub repo - MIT License
 
