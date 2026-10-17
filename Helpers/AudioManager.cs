@@ -8,12 +8,12 @@ namespace LD60.Helpers;
 
 public partial class AudioManager : Node
 {
-    private const int MaxChannels = 4;
+    private const int MaxChannels = 8;
     private const string MainBus = "master";
 
     private readonly Stack<AudioStreamPlayer> _availableChannels = new(MaxChannels);
     private readonly Queue<QueuedAudioParameters> _queue = new(MaxChannels);
-    private readonly Dictionary<NodePath, AudioStreamPlayer> _channelsInUse = new(MaxChannels);
+    private readonly Dictionary<NodePath, HashSet<AudioStreamPlayer>> _channelsInUse = new(MaxChannels);
 
     public void Play(NodePath soundPath, bool allowOverlap = false, float pitch = 1.0f, float volume = 1.0f)
     {
@@ -30,51 +30,62 @@ public partial class AudioManager : Node
 
     public override void _Ready()
     {
-        for (int i = 0; i <= MaxChannels; i++)
+        for (int i = 0; i < MaxChannels; i++)
         {
-            var player = new AudioStreamPlayer()
+            var channel = new AudioStreamPlayer()
             {
                 VolumeDb = -10,
                 Bus = MainBus,
             };
             // Finished is an action, so capture the player here, no Bind C# support
-            player.Finished += () => PlayerOnFinished(player);
-            AddChild(player);
-            _availableChannels.Push(player);
+            channel.Finished += () => PlayerOnFinished(channel);
+            AddChild(channel);
+            _availableChannels.Push(channel);
         }
     }
 
-    private void PlayerOnFinished(AudioStreamPlayer player)
+    private void PlayerOnFinished(AudioStreamPlayer completedChannel)
     {
         // Return used channel to available pool
-        foreach (var channel in _channelsInUse)
+        foreach (var audioChannelSet in _channelsInUse)
         {
-            if (channel.Value == player)
+            if (audioChannelSet.Value.Contains(completedChannel))
             {
-                _channelsInUse.Remove(channel.Key);
+                audioChannelSet.Value.Remove(completedChannel);
+                // TODO: This could be wasteful if the same audio is just going to be played over and over
+                // Could use ObjectPool for the HashSet objects...
+                if (audioChannelSet.Value.Count == 0)
+                {
+                    _channelsInUse.Remove(audioChannelSet.Key);
+                }
                 break;
             }
         }
 
-        _availableChannels.Push(player);
+        _availableChannels.Push(completedChannel);
     }
 
     public override void _Process(double delta)
     {
         // Check if we have stuff to play and a player for it!
         if (_queue.Count > 0 &&
-            _availableChannels.TryPop(out var player))
+            _availableChannels.TryPop(out var channel))
         {
             var data = _queue.Dequeue();
 
             // Used to track sound overlap
-            _channelsInUse[data.Path] = player;
+            if (!_channelsInUse.ContainsKey(data.Path))
+            {
+                // Use HashSet in case we allow overlap and start playing the same sound on another channel.
+                _channelsInUse[data.Path] = new();
+            }
+            _channelsInUse[data.Path].Add(channel);
 
             // Play sound
-            player.Stream = GD.Load(data.Path) as AudioStream;
-            player.PitchScale = data.Pitch;
-            player.VolumeDb = data.Volume;
-            player.Play();
+            channel.Stream = GD.Load(data.Path) as AudioStream;
+            channel.PitchScale = data.Pitch;
+            channel.VolumeDb = data.Volume;
+            channel.Play();
         }
     }
 
