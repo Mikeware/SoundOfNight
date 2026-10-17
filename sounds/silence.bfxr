@@ -1,0 +1,16 @@
+{
+  "synth_type": "Squishr",
+  "version": "1.0.0",
+  "file_name": "SlimeStep2",
+  "params": {
+    "masterVolume": 0.22,
+    "seed": 0.55,
+    "texture": 0,
+    "viscosity": 1,
+    "stretch": 0,
+    "pressure": 0.16,
+    "wetness": 0.07,
+    "bubbleSize": 0.98,
+    "duration": 0.15
+  }
+}
