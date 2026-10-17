@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://bikrw26n7w6kv"]
 
 [ext_resource type="Theme" uid="uid://bxctn28btu3wo" path="res://resources/default_theme.tres" id="1_8ho6b"]
+[ext_resource type="Script" uid="uid://b5d56cryg5ce7" path="res://scenes/Tutorial.cs" id="2_4kmhl"]
+[ext_resource type="LabelSettings" uid="uid://y4ulh8edh65x" path="res://fonts/label_title.tres" id="3_cq4me"]
+[ext_resource type="FontFile" uid="uid://p0m1whedymi3" path="res://fonts/morse.ttf" id="4_6yjpi"]
 
-[node name="Tutorial" type="Control" unique_id=1306760794]
+[node name="Tutorial" type="Control" unique_id=1306760794 node_paths=PackedStringArray("LetterLabel", "MorseLabel", "TypeLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,6 +13,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_8ho6b")
+script = ExtResource("2_4kmhl")
+LetterLabel = NodePath("CenterContainer/VBoxContainer/LetterLabel")
+MorseLabel = NodePath("CenterContainer/VBoxContainer/MorseLabel")
+TypeLabel = NodePath("BottomCenterContainer/MarginContainer/TypeLabel")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=344498001]
 layout_mode = 1
@@ -19,6 +26,36 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="CenterContainer" unique_id=2104229462]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=173687593]
 layout_mode = 2
-text = "Welcome... TODO "
+
+[node name="LetterLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=2104229462]
+layout_mode = 2
+text = "S"
+label_settings = ExtResource("3_cq4me")
+horizontal_alignment = 1
+
+[node name="MorseLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1984558259]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_6yjpi")
+theme_override_font_sizes/font_size = 64
+text = "S"
+horizontal_alignment = 1
+
+[node name="BottomCenterContainer" type="CenterContainer" parent="." unique_id=1112925615]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="BottomCenterContainer" unique_id=1702128908]
+layout_mode = 2
+theme_override_constants/margin_bottom = 32
+
+[node name="TypeLabel" type="Label" parent="BottomCenterContainer/MarginContainer" unique_id=278822699]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1

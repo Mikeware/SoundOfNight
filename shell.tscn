@@ -22,7 +22,7 @@ mouse_filter = 2
 script = ExtResource("1_6fuaf")
 InitialScene = ExtResource("2_2e587")
 TransitionMaterial = SubResource("ShaderMaterial_et3vo")
-TransitionHalfDuration = 5.0
+TransitionHalfDuration = 2.0
 SceneHost = NodePath("SceneHost")
 
 [node name="SceneHost" type="Control" parent="." unique_id=1927075393]
