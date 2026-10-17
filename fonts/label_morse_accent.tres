@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://bn7ygyk5vijyv"]
+
+[ext_resource type="FontFile" uid="uid://p0m1whedymi3" path="res://fonts/morse.ttf" id="1_5tj78"]
+
+[resource]
+font = ExtResource("1_5tj78")
+font_size = 36
+font_color = Color(0, 0.36078432, 0.49803922, 1)

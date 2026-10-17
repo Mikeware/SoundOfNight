@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://bep0xxehcp1tv"]
+
+[ext_resource type="LabelSettings" uid="uid://y4ulh8edh65x" path="res://fonts/label_title.tres" id="1_mpvgy"]
+[ext_resource type="LabelSettings" uid="uid://bn7ygyk5vijyv" path="res://fonts/label_morse_accent.tres" id="2_11tsp"]
+[ext_resource type="LabelSettings" uid="uid://drwm23arysq7r" path="res://fonts/label_text.tres" id="3_mvs7q"]
+
+[node name="Main" type="Control" unique_id=1150417971]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1413656032]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer" unique_id=1903382410]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="CenterContainer/Content" unique_id=400099151]
+layout_mode = 2
+text = "NIGHT DASH"
+label_settings = ExtResource("1_mpvgy")
+horizontal_alignment = 1
+
+[node name="Accent2" type="Label" parent="CenterContainer/Content" unique_id=691429362]
+layout_mode = 2
+text = "M O R S E"
+label_settings = ExtResource("2_11tsp")
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="CenterContainer/Content" unique_id=2108368752]
+layout_mode = 2
+text = "- This game requires SOUND -
+Please turn on your Speakers!
+- You should hear sounds -"
+label_settings = ExtResource("3_mvs7q")
+horizontal_alignment = 1

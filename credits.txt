@@ -1,0 +1,40 @@
+Game Concept
+Michael A. Hawker
+
+Game Design
+Michael A. Hawker
+
+Programming
+Michael A. Hawker
+
+Sound Design
+Michael A. Hawker
+
+---
+
+* 3rd Party Resources *
+
+Fonts
+
+Calling Code
+Dharma Type - OFL
+
+Morse
+Furetto Bislacco - CC BY-SA
+
+WC Wunderbach Mix Bta 
+WC Fonts / Atypeek 
+
+---
+
+* Libraries & Tools *
+
+outfox/2dog (2dog.dev)
+GitHub repo - MIT License
+
+GodotEngine/Godot
+GitHub repo - MIT License
+
+---
+
+Copyright 2026 Mikeware

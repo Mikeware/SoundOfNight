@@ -13,18 +13,20 @@ custom_features="dotnet"
 [application]
 
 config/name="LD60"
-run/main_scene="res://main.tscn"
+run/main_scene="res://setup.tscn"
 config/features=PackedStringArray("4.7", "C#")
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 
 [dotnet]
 
 project/assembly_name="LD60"
 
-[display]
-
-window/size/viewport_width=1280
-window/size/viewport_height=720
-
 [rendering]
 
-environment/defaults/default_clear_color=Color(0.118, 0.149, 0.196, 1)
+environment/defaults/default_clear_color=Color(0, 0.0627451, 0.1254902, 1)

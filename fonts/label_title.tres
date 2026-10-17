@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://y4ulh8edh65x"]
+
+[ext_resource type="FontFile" uid="uid://bbvwqjwd47mij" path="res://fonts/WC_Wunderbach_Mix.otf" id="1_ao12u"]
+
+[resource]
+font = ExtResource("1_ao12u")
+font_size = 64
