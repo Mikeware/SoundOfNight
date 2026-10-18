@@ -24,6 +24,7 @@ public partial class Tutorial : Control,
 
     private double _messageDelay;
     private int _tutorialStage;
+    private string? _currentPhrase;
     private TutorialInstruction? _currentInstruction;
 
     private TutorialInstruction[] _instructions =
@@ -40,6 +41,10 @@ public partial class Tutorial : Control,
             "[color=#FFB800]Morse Code[/color] is a system of encoding messages using ",
             "[color=#FFB800]dots[/color] '[color=#FFB800].[/color]' and [color=#FFB800]dashes[/color] '[color=#FFB800]-[/color]', short and long audio tones."
         ]),
+        new(0.5f, [
+            "Dots (or dits) are [color=#FFB800]one unit[/color] long",
+            "Dashes (or dahs) are [color=#FFB800]three[/color] units long."
+        ], "ET", false), // single . and dash -
     ];
 
     // Called when the node enters the scene tree for the first time.
@@ -65,8 +70,10 @@ public partial class Tutorial : Control,
 
     private void MorseManagerOnQueueCompleted(object? sender, EventArgs e)
     {
-        // Put a small gap before we start again
-        _morseManager?.Queue("S  ");
+        if (_currentPhrase != null)
+        {
+            _morseManager?.Queue(_currentPhrase);
+        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -81,6 +88,17 @@ public partial class Tutorial : Control,
             StrongReferenceMessenger.Default.Send<DisplayDialogueMessage>(new(_currentInstruction.Message));
 
             // TODO: Setup display and audio ping for the current instruction as well...? (Maybe want bool for if happens immediately or after dialogue?)
+            if (_currentInstruction.MorsePhrase != null)
+            {
+                MorseLabel?.Text = _currentInstruction.MorsePhrase;
+                if (_currentInstruction.DisplayPhrase)
+                {
+                    LetterLabel?.Text = _currentInstruction.MorsePhrase;
+                }
+
+                _currentPhrase = _currentInstruction.MorsePhrase + "  ";
+                _morseManager?.Queue(_currentPhrase);
+            }
 
             _tutorialStage++;
             _currentInstruction = null;

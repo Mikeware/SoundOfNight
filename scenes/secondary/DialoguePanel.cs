@@ -115,7 +115,7 @@ public partial class DialoguePanel : PanelContainer,
         // Clear prior text
         DialogueLabel?.Text = string.Empty;
 
-        GetTree().Paused = true;
+        //GetTree().Paused = true;
         Visible = true;
 
         _currentBlock = message.Lines;
@@ -125,7 +125,7 @@ public partial class DialoguePanel : PanelContainer,
     private void FinishDialogue()
     {
         Visible = false;
-        GetTree().Paused = false;
+        //GetTree().Paused = false;
 
         StrongReferenceMessenger.Default.Send<DialogueFinished>(new());
     }

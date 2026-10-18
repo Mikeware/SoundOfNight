@@ -66,7 +66,6 @@ layout_mode = 2
 
 [node name="LetterLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=2104229462]
 layout_mode = 2
-text = "S"
 label_settings = ExtResource("3_cq4me")
 horizontal_alignment = 1
 
@@ -74,7 +73,6 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_6yjpi")
 theme_override_font_sizes/font_size = 64
-text = "S"
 horizontal_alignment = 1
 
 [node name="BottomCenterContainer" type="CenterContainer" parent="." unique_id=1112925615]
