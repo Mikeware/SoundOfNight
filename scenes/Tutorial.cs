@@ -154,7 +154,8 @@ public partial class Tutorial : Control,
                 pressedKey = true;
                 TypeLabel?.Text += OS.GetKeycodeString(eventKey.Keycode).ToUpper();
             }
-            else if (eventKey.Keycode == Key.Enter)
+            else if (eventKey.Keycode == Key.Enter ||
+                     eventKey.Keycode == Key.KpEnter)
             {
                 // Submit
                 pressedKey = true;
