@@ -72,6 +72,18 @@ public partial class Tutorial : Control,
             "'[color=#FF0000]SOS[/color]' is used as the start of a distress signal.",
             "It gets condensed as a [color=#FFB800]prosign[/color], we'll cover that later.",
         ], "SOS", IsProsign: true),
+        new(0.5f, [
+            "Two last letters and some practice before your journey.",
+            "2 dots '[color=#FFB800]..[/color]' is the letter '[color=#FFB800]I[/color]' and 2 dashes '[color=#FFB800]--[/color]' is '[color=#FFB800]M[/color]'."
+        ], "IM", true, true),
+        new(0.5f, [
+            "Between '.'s & '-'s of a [color=#FFB800]single letter[/color] is a [color=#FFB800]1 unit[/color] gap.",
+            "But [color=#FFB800]3 units[/color] of gap between letters themselves. Hear it?",
+        ], "MOSS", true),
+        new(0.5f, [
+            "We've added a [color=#FFB800]Space[/color]! Words create a [color=#FFB800]7 unit[/color] gap!",
+            "Gaps between are important; pay [color=#FFB800]close attention[/color] to them!"
+        ], "IM ME", true, true),
     ];
 
     // Called when the node enters the scene tree for the first time.
