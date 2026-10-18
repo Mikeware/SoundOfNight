@@ -262,6 +262,8 @@ public partial class Tutorial : Control,
             {
                 pressedKey = true;
                 TypeLabel?.Text += OS.GetKeycodeString(eventKey.Keycode).ToUpper();
+                CaretLabel?.Modulate = Colors.White;
+                TypeLabel?.Modulate = Colors.White;
             }
             else if (eventKey.Keycode == Key.Enter ||
                      eventKey.Keycode == Key.KpEnter)
@@ -299,6 +301,12 @@ public partial class Tutorial : Control,
                     TypeLabel?.Modulate = Colors.Red;
                     _audioManager?.Play($"res://sounds/incorrect.wav", true,
                         0.9f + Random.Shared.NextSingle() / 20f, 0.9f + Random.Shared.NextSingle() / 10f);
+
+                    // Quizzes are one letter at a time only, so blank improper input
+                    if (_currentInstruction.IsQuiz)
+                    {
+                        TypeLabel?.Text = string.Empty;
+                    }
                 }
             }
 
