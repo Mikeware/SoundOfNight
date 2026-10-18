@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://j84gg7m5cdxi"]
+
+[ext_resource type="Theme" uid="uid://bxctn28btu3wo" path="res://resources/default_theme.tres" id="1_gbmiq"]
+[ext_resource type="Script" uid="uid://squ5b3gruqnd" path="res://scenes/secondary/DialoguePanel.cs" id="2_hjdhp"]
+
+[node name="DialoguePanel" type="PanelContainer" unique_id=1402561022 node_paths=PackedStringArray("NextLetterTimer", "DialogueLabel")]
+process_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_gbmiq")
+script = ExtResource("2_hjdhp")
+NextLetterTimer = NodePath("NextLetterTimer")
+DialogueLabel = NodePath("Panel/MarginContainer/DialogueLabel")
+
+[node name="Panel" type="Panel" parent="." unique_id=268901046]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=1905935237]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 20
+
+[node name="DialogueLabel" type="Label" parent="Panel/MarginContainer" unique_id=58342894]
+layout_mode = 2
+
+[node name="NextLetterTimer" type="Timer" parent="." unique_id=255105008]
+wait_time = 0.08
+
+[connection signal="timeout" from="NextLetterTimer" to="." method="NextLetterTimer_Timeout"]

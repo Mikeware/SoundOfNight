@@ -2,6 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://bxctn28btu3wo" path="res://resources/default_theme.tres" id="1_8ho6b"]
 [ext_resource type="Script" uid="uid://b5d56cryg5ce7" path="res://scenes/Tutorial.cs" id="2_4kmhl"]
+[ext_resource type="PackedScene" uid="uid://j84gg7m5cdxi" path="res://scenes/secondary/dialoguePanel.tscn" id="3_6yjpi"]
 [ext_resource type="LabelSettings" uid="uid://y4ulh8edh65x" path="res://fonts/label_title.tres" id="3_cq4me"]
 [ext_resource type="FontFile" uid="uid://p0m1whedymi3" path="res://fonts/morse.ttf" id="4_6yjpi"]
 
@@ -17,6 +18,23 @@ script = ExtResource("2_4kmhl")
 LetterLabel = NodePath("CenterContainer/VBoxContainer/LetterLabel")
 MorseLabel = NodePath("CenterContainer/VBoxContainer/MorseLabel")
 TypeLabel = NodePath("BottomCenterContainer/MarginContainer/TypeLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1138901915]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+
+[node name="DialoguePanel" parent="MarginContainer" unique_id=1402561022 instance=ExtResource("3_6yjpi")]
+visible = false
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_vertical = 0
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=344498001]
 layout_mode = 1

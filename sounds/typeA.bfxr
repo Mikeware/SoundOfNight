@@ -1,0 +1,21 @@
+{
+  "synth_type": "Breathr",
+  "version": "1.0.0",
+  "file_name": "Exhale57",
+  "params": {
+    "masterVolume": 0.5,
+    "seed": 0.580390783834315,
+    "source": 0,
+    "mode": 0,
+    "duration": 0.15,
+    "direction": 0.9301138616837822,
+    "cycles": 1,
+    "effort": 0.588259799367432,
+    "inhale": 0.42,
+    "hold": 0.04,
+    "throat": 0.5193026199988118,
+    "rasp": 0.08888191595408473,
+    "flutter": 0.17215257689926475,
+    "space": 0.0533949737288857
+  }
+}

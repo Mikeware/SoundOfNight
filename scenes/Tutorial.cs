@@ -1,7 +1,9 @@
 using System;
 using System.Diagnostics;
+using CommunityToolkit.Mvvm.Messaging;
 using Godot;
 using LD60.Helpers;
+using LD60.scenes.secondary;
 
 namespace LD60.scenes;
 
@@ -28,6 +30,10 @@ public partial class Tutorial : Control
 
         // Kick us off
         MorseManagerOnQueueCompleted(this, EventArgs.Empty);
+        StrongReferenceMessenger.Default.Send<DisplayDialogueMessage>(new([
+            "Hi, to play this game you need to learn Morse Code.",
+            "We can teach you. If you know already, press Skip."
+        ]));
     }
 
     private void MorseManagerOnQueueCompleted(object? sender, EventArgs e)

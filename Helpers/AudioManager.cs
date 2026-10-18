@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Godot;
 
@@ -30,6 +31,8 @@ public partial class AudioManager : Node
 
     public override void _Ready()
     {
+        ProcessMode = ProcessModeEnum.Always;
+
         for (int i = 0; i < MaxChannels; i++)
         {
             var channel = new AudioStreamPlayer()
