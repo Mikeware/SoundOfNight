@@ -35,6 +35,9 @@ public partial class Game : Control,
     [Export]
     public Button? StopPlaybackButton { get; set; }
 
+    [Export]
+    public Button? PausePlaybackButton { get; set; }
+
     private AudioManager? _audioManager;
     private MorseManager? _morseManager;
 
@@ -42,6 +45,8 @@ public partial class Game : Control,
     private int _gameStage = -1;
     private bool _sentCurrentInstruction;
     private GameInstruction? _currentInstruction;
+
+    private bool _isPlaybackPaused;
 
     private readonly GameInstruction[] _instructions =
     [
@@ -138,13 +143,18 @@ public partial class Game : Control,
             // Re-enable play again button after playing phrase
             RepeatPhraseButton?.Disabled = false;
             StopPlaybackButton?.Disabled = true;
+            PausePlaybackButton?.Disabled = true;
+            if (_isPlaybackPaused) OnPauseButtonPressed();
         }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        _morseManager?.Process(delta);
+        if (!_isPlaybackPaused)
+        {
+            _morseManager?.Process(delta);
+        }
 
         // Use delay as it continually counts and can be our "time" factor, occasionally it'll get mucked with but fine...
         CaretLabel?.Modulate = CaretLabel.Modulate with { A = 0.5f * (1.0f + MathF.Sin((float)(2f * Math.PI * _messageDelay))) };
@@ -166,8 +176,13 @@ public partial class Game : Control,
             CaretLabel?.Visible = _currentInstruction.NeedInput;
             RepeatPhraseButton?.Visible = _currentInstruction.NeedInput;
             StopPlaybackButton?.Visible = _currentInstruction.NeedInput;
+            PausePlaybackButton?.Visible = _currentInstruction.NeedInput;
             RepeatPhraseButton?.Disabled = true; // will be turned on after initial play of phrase
             StopPlaybackButton?.Disabled = false;
+            PausePlaybackButton?.Disabled = false;
+
+            // Unpause if paused
+            if (_isPlaybackPaused) OnPauseButtonPressed();
 
             // Display Next Message
             // TODO: Do we want a flag for not playing the dialogue sounds?
@@ -241,6 +256,10 @@ public partial class Game : Control,
                     // Prevent pressing the Repeat Button
                     GetViewport().SetInputAsHandled();
 
+                    // Reset Pause and Morse buffer
+                    _morseManager?.Clear();
+                    if (_isPlaybackPaused) OnPauseButtonPressed();
+
                     // Success
                     CaretLabel?.Modulate = Color.FromHtml("FFB800");
                     TypeLabel?.Modulate = Color.FromHtml("FFB800");
@@ -298,12 +317,23 @@ public partial class Game : Control,
             // Disable the button while the phrase plays
             RepeatPhraseButton?.Disabled = true;
             StopPlaybackButton?.Disabled = false;
+            PausePlaybackButton?.Disabled = false;
+            if (_isPlaybackPaused) OnPauseButtonPressed();
         }
     }
 
     public void OnStopPlaybackButtonPressed()
     {
         _morseManager?.Clear();
+
+        PausePlaybackButton?.Disabled = true;
+        if (_isPlaybackPaused) OnPauseButtonPressed();
+    }
+
+    public void OnPauseButtonPressed()
+    {
+        _isPlaybackPaused = !_isPlaybackPaused;
+        PausePlaybackButton?.Text = _isPlaybackPaused ? "UNPAUSE" : "PAUSE";
     }
 }
 
