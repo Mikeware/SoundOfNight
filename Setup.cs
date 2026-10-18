@@ -13,6 +13,9 @@ public partial class Setup : Control
     [Export]
     public Button? ProceedButton { get; set; }
 
+    [Export]
+    public Label ByLineLabel { get; set; }
+
     private MorseManager? _morseManager;
 
     private int _delay = 2;
@@ -20,6 +23,8 @@ public partial class Setup : Control
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        ByLineLabel.Text += ProjectSettings.Singleton.Get("application/config/version");
+
         var audioManager = GetNode<AudioManager>("/root/AudioManager");
         _morseManager = new(audioManager);
         _morseManager.QueueCompleted += MorseManagerOnQueueCompleted;
