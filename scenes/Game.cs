@@ -46,7 +46,7 @@ public partial class Game : Control,
             "It was a [color=#000000]dark[/color] and [color=#005C7F]stormy night[/color].",
             "I was tasked yet again to monitor the comms...",
         ]),
-        new(3.0f, [
+        new(2.0f, [
             "That's when I heard it, a [color=#FF0000]distress call[/color].",
             "I could just make it out, even though it was distorted."
         ], "SOS", IsProsign: true),
@@ -58,7 +58,7 @@ public partial class Game : Control,
             "[i][color=#FFB800]Good job![/color] You played the tutorial, I hope, or know [color=#FFB800]Morse Code[/color][/i]?",
             "[color=#FFB800][b]Who[/b][/color] is sending this message? I thought to myself."
         ]),
-        new(2.5f, [
+        new(2.0f, [
             "Then a message came; I scrambled for my [b]memo pad[/b].",
             "[i]Use your [color=#FFB800]keyboard[/color] to decode the message, then press [color=#FFB800]Enter[/color][/i]."
         ], "MEMO TO ME", true),
@@ -70,25 +70,32 @@ public partial class Game : Control,
             "[i][color=#FFB800]Great job![/color] You've learned a new [color=#FFB800]letter[/color][/i]!",
             "[i]This sequence is the letter '[color=#FFB800]L[/color]'. You're [b]writing this down[/b], right?[/i]."
         ], "L", false, true),
-        new(2.5f, [
+        new(1.5f, [
             "Ok, that's a bit [color=#000000]odd[/color]. This is a [color=#FF0000]distress call[/color]?",
-            "Am I really that tired already? My shift just began. Everyone else is asleep..."
+            "Am I really that tired already? My shift just began."
         ]),
         new(0.5f, [
-            "Yup, 'MEMO TO ME: TIME IS LOST'. I'm losing time trying to think about this.",
+            "Yup, 'MEMO TO ME: TIME IS LOST'. I'm losing my time...",
             "I was just about to go grab some [color=#000000]coffee[/color]..."
         ]),
         new(0.5f, [
             "Alright, another sequence. I [color=#FFB800]cracked my knuckles[/color]...",
-            "This one seems a bit harder, I think.",
+            "This one seems harder. Just me! Everyone else is asleep.",
         ], "ILL SEE SOON", true),
         new(2.0f, [
             "[i][color=#FFB800]Good job![/color] You've learned a new [color=#FFB800]letter[/color][/i]!",
             "[i]This sequence is the letter '[color=#FFB800]N[/color]'. [b]Write it down[/b][/i]!"
         ], "N", false, true),
-        new(3.0f, [
-            "[i]This is all the content of the game for now, [color=#FFB800]great work[/color] decoding![/i]",
-            "[i]Thanks for playing my LD60 compo entry! Made [color=#FFB800]by hand[/color] in less than 48-hours with [color=#FFB800]C#[/color] and [color=#FFB800]Godot[/color][/i]",
+        new(0.5f, [
+            "[color=#FFB800]What[/color] will they see soon? I asked.",
+            "And [color=#FFB800]Who[/color] is sending this message in the [color=#000000]night[/color]?",
+        ]),
+        new(1.5f, [
+            "[i]Thanks for playing my LD60 compo entry!",
+            "[i]This is all the content of the game for now, [color=#FFB800]great work[/color] decoding[/i]!",
+        ]),
+        new(0.5f, [
+            "[i]Made [color=#FFB800]by hand[/color] in less than 48-hours with [color=#FFB800]C#[/color] and [color=#FFB800]Godot[/color][/i].",
         ]),
     ];
 
