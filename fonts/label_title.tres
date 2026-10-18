@@ -2,6 +2,11 @@
 
 [ext_resource type="FontFile" uid="uid://bbvwqjwd47mij" path="res://fonts/WC_Wunderbach_Mix.otf" id="1_ao12u"]
 
+[sub_resource type="FontVariation" id="FontVariation_cq4me"]
+base_font = ExtResource("1_ao12u")
+spacing_glyph = 6
+spacing_space = 6
+
 [resource]
-font = ExtResource("1_ao12u")
+font = SubResource("FontVariation_cq4me")
 font_size = 64

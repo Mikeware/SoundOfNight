@@ -1,0 +1,20 @@
+{
+  "synth_type": "Bouncr",
+  "version": "1.0.0",
+  "file_name": "RubberonWood32",
+  "params": {
+    "masterVolume": 0.5,
+    "material": 1,
+    "surface": 1,
+    "force": 0.7,
+    "duration": 0.2,
+    "size": 0.92,
+    "hardness": 0.26,
+    "tail": 0.07,
+    "seed": 0.5,
+    "count": 1,
+    "bounce": 0.865907058490865,
+    "gravity": 0.5,
+    "spin": 0
+  }
+}

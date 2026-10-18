@@ -1,0 +1,23 @@
+{
+  "synth_type": "Jinglr",
+  "version": "1.0.0",
+  "file_name": "Confirm9",
+  "params": {
+    "masterVolume": 0.5,
+    "seed": 0.05519055190551905,
+    "instrumentSeed": 18941,
+    "phrase": "[{\"degree\":-1,\"beats\":0.5},{\"degree\":4,\"beats\":0.5},{\"degree\":7,\"beats\":1}]",
+    "instrument": 4,
+    "key": 11,
+    "scale": 0,
+    "contour": 0,
+    "rhythm": 0,
+    "noteCount": 3,
+    "octave": 5,
+    "tempo": 180.1,
+    "swing": 0,
+    "brightness": 0.5872521882964914,
+    "decay": 0.15,
+    "echo": 0
+  }
+}

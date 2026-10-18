@@ -6,7 +6,8 @@ using LD60.Helpers;
 namespace LD60.scenes.secondary;
 
 public partial class DialoguePanel : PanelContainer,
-    IRecipient<DisplayDialogueMessage>
+    IRecipient<DisplayDialogueMessage>,
+    IRecipient<DismissDialogueMessage>
 {
     public const int NumberOfTypeSounds = 10;
 
@@ -22,14 +23,18 @@ public partial class DialoguePanel : PanelContainer,
     private int _currentLine;
     private int _currentCharacter;
 
+    private bool _isDismissable = true;
+
     public override void _EnterTree()
     {
         StrongReferenceMessenger.Default.Register<DisplayDialogueMessage>(this);
+        StrongReferenceMessenger.Default.Register<DismissDialogueMessage>(this);
     }
 
     public override void _ExitTree()
     {
         StrongReferenceMessenger.Default.Unregister<DisplayDialogueMessage>(this);
+        StrongReferenceMessenger.Default.Unregister<DismissDialogueMessage>(this);
     }
 
     // Called when the node enters the scene tree for the first time.
@@ -118,19 +123,33 @@ public partial class DialoguePanel : PanelContainer,
         //GetTree().Paused = true;
         Visible = true;
 
+        _isDismissable = message.IsDismissable;
         _currentBlock = message.Lines;
         NextLetterTimer?.Start();
     }
 
     private void FinishDialogue()
     {
-        Visible = false;
-        //GetTree().Paused = false;
+        if (_isDismissable)
+        {
+            NextLetterTimer?.Stop();
 
-        StrongReferenceMessenger.Default.Send<DialogueFinished>(new());
+            Visible = false;
+            //GetTree().Paused = false;
+
+            StrongReferenceMessenger.Default.Send<DialogueFinishedMessage>(new());
+        }
+    }
+
+    public void Receive(DismissDialogueMessage message)
+    {
+        _isDismissable = true;
+        FinishDialogue();
     }
 }
 
-public record DisplayDialogueMessage(string[] Lines);
+public record DisplayDialogueMessage(string[] Lines, bool IsDismissable = true);
 
-public record DialogueFinished();
+public record DismissDialogueMessage();
+
+public record DialogueFinishedMessage();
