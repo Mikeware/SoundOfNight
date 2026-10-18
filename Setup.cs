@@ -64,4 +64,9 @@ public partial class Setup : Control
         ProceedButton?.Disabled = true;
         Shell.Instance?.TransitionTo(NextScenePath);
     }
+
+    public void OnCreditsButtonPressed()
+    {
+        Shell.Instance?.TransitionTo("res://scenes/credits.tscn");
+    }
 }
