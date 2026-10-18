@@ -13,7 +13,7 @@ custom_features="dotnet"
 [application]
 
 config/name="LD60"
-config/version="0.1"
+config/version="0.9"
 run/main_scene="uid://bf3xaaoxstfsn"
 config/features=PackedStringArray("4.7", "C#")
 
