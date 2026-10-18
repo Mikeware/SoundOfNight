@@ -14,7 +14,7 @@ public partial class DialoguePanel : PanelContainer,
     public Timer? NextLetterTimer { get; set; }
 
     [Export]
-    public Label? DialogueLabel { get; set; }
+    public RichTextLabel? DialogueLabel { get; set; }
 
     private AudioManager? _audioManager;
     private string[]? _currentBlock;
@@ -73,6 +73,14 @@ public partial class DialoguePanel : PanelContainer,
 
     public void NextLetterTimer_Timeout()
     {
+        string line = _currentBlock![_currentLine];
+        // copy over BBCode instruction
+        if (line[_currentCharacter] == '[')
+        {
+            int len = line.Find("]", _currentCharacter) - _currentCharacter;
+            DialogueLabel?.Text += line.Substring(_currentCharacter, len);
+            _currentCharacter += len;
+        }
         DialogueLabel?.Text += _currentBlock![_currentLine][_currentCharacter++];
 
         // Play Sound, Periodically // TODO: Make based on integer to vary with nextletter time too? maybe can make that a bit faster and make this every 3rd?

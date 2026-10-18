@@ -73,3 +73,5 @@ Button/styles/pressed = SubResource("StyleBoxFlat_tjwxw")
 Label/font_sizes/font_size = 18
 Label/fonts/font = ExtResource("1_mwhd1")
 Panel/styles/panel = SubResource("StyleBoxFlat_unnba")
+RichTextLabel/font_sizes/normal_font_size = 18
+RichTextLabel/fonts/normal_font = ExtResource("1_mwhd1")

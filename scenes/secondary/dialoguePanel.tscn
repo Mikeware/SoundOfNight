@@ -27,8 +27,12 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 20
 
-[node name="DialogueLabel" type="Label" parent="Panel/MarginContainer" unique_id=58342894]
+[node name="DialogueLabel" type="RichTextLabel" parent="Panel/MarginContainer" unique_id=2483293]
 layout_mode = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
 
 [node name="NextLetterTimer" type="Timer" parent="." unique_id=255105008]
 wait_time = 0.08
