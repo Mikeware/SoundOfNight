@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Messaging;
 using Godot;
 using LD60.Helpers;
@@ -39,6 +42,8 @@ public partial class Tutorial : Control,
     private int _tutorialStage = -1;
     private bool _sentCurrentInstruction;
     private TutorialInstruction? _currentInstruction;
+    private readonly Queue<char> _quizLettersLeft = new();
+    private char? _currentQuizLetter;
 
     private readonly TutorialInstruction[] _instructions =
     [
@@ -83,13 +88,21 @@ public partial class Tutorial : Control,
             "2 dots '[color=#FFB800]..[/color]' is the letter '[color=#FFB800]I[/color]' and 2 dashes '[color=#FFB800]--[/color]' is '[color=#FFB800]M[/color]'."
         ], "IM", true, true),
         new(0.5f, [
-            "Between '.'s & '-'s of a [color=#FFB800]single letter[/color] is a [color=#FFB800]1 unit[/color] gap.",
+            "Between '[color=#FFB800].[/color]'s & '[color=#FFB800]-[/color]'s of a [color=#FFB800]single letter[/color] is a [color=#FFB800]1 unit[/color] gap.",
             "But [color=#FFB800]3 units[/color] of gap between letters themselves. Hear it?",
         ], "MOSS", true),
         new(0.5f, [
             "We've added a [color=#FFB800]Space[/color]! Words create a [color=#FFB800]7 unit[/color] gap!",
             "Gaps between are important; pay [color=#FFB800]close attention[/color] to them!"
         ], "IM ME", true, true, AutoRepeat: false),
+        new(0.5f, [
+            "[i]Pop quiz, hotshot.[/i] Type the [color=#FFB800]letter[/color] that matches the code.",
+            "Complete all letters you've learned twice to proceed."
+        ], "EIMOST", false, true, true),
+        new(0.5f, [
+            "[b][color=#FFB800]Congratulations![/color][/b] You've completed this first tutorial.",
+            "[color=#FFB800]Click[/color] or press [color=#FFB800]Enter[/color] to start the game.",
+        ]),
     ];
 
     // Called when the node enters the scene tree for the first time.
@@ -115,12 +128,22 @@ public partial class Tutorial : Control,
 
     private void MorseManagerOnQueueCompleted(object? sender, EventArgs e)
     {
+        // If quiz, repeat the letter
         if (_currentInstruction != null &&
+            _currentInstruction.IsQuiz &&
+            _currentInstruction.AutoRepeat &&
+            _currentQuizLetter != null)
+        {
+            _morseManager?.Queue(_currentQuizLetter + PhraseGap);
+        }
+        // Normal Autorepeat of the whole phrase
+        else if (_currentInstruction != null &&
             _currentInstruction.MorsePhrase != null &&
             _currentInstruction.AutoRepeat)
         {
             _morseManager?.Queue(_currentInstruction.MorsePhrase + PhraseGap, _currentInstruction.IsProsign);
         }
+        // Single time only, re-enable play again button
         else
         {
             RepeatPhraseButton?.Disabled = false;
@@ -141,6 +164,7 @@ public partial class Tutorial : Control,
             !_sentCurrentInstruction)
         {
             _sentCurrentInstruction = true;
+            _currentQuizLetter = null;
 
             // Reset Text
             LetterLabel?.Text = string.Empty;
@@ -156,8 +180,29 @@ public partial class Tutorial : Control,
             // TODO: Do we want a flag for not playing the dialogue sounds?
             StrongReferenceMessenger.Default.Send<DisplayDialogueMessage>(new(_currentInstruction.Message, !_currentInstruction.NeedInput));
 
+            if (_currentInstruction.IsQuiz)
+            {
+                if (_currentInstruction.MorsePhrase == null) throw new ArgumentNullException(nameof(_currentInstruction.MorsePhrase));
+
+                // Generate two sets of randomly ordered characters from the phrase
+                List<char> characters = new();
+                foreach (var @char in _currentInstruction.MorsePhrase)
+                {
+                    characters.Add(@char);
+                    characters.Add(@char);
+                }
+
+                // Randomize!
+                _quizLettersLeft.Clear();
+                foreach (var @char in characters.Shuffle())
+                {
+                    _quizLettersLeft?.Enqueue(@char);
+                }
+
+                NextQuizLetter();
+            }
             // TODO: Maybe want bool for if happens immediately or after dialogue?
-            if (_currentInstruction.MorsePhrase != null)
+            else if (_currentInstruction.MorsePhrase != null)
             {
                 MorseLabel?.Text = _currentInstruction.MorsePhrase;
                 if (_currentInstruction.DisplayPhrase)
@@ -168,6 +213,20 @@ public partial class Tutorial : Control,
                 _morseManager?.Queue(_currentInstruction.MorsePhrase + PhraseGap, _currentInstruction.IsProsign);
             }
         }
+    }
+
+    private void NextQuizLetter()
+    {
+        // Reset
+        CaretLabel?.Modulate = Colors.White;
+        TypeLabel?.Modulate = Colors.White;
+        TypeLabel?.Text = string.Empty;
+        RepeatPhraseButton?.Disabled = true; // will be turned on after initial play of phrase
+
+        _currentQuizLetter = _quizLettersLeft.Dequeue();
+        MorseLabel?.Text = $"{_currentQuizLetter}";
+        // TODO: Should just guard all these in Ready or something... should think about more
+        _morseManager?.Queue(_currentQuizLetter + PhraseGap);
     }
 
     public override void _Input(InputEvent @event)
@@ -207,7 +266,8 @@ public partial class Tutorial : Control,
             {
                 // Submit
                 pressedKey = true;
-                if (TypeLabel?.Text == _currentInstruction.MorsePhrase)
+                if ((_currentQuizLetter != null && TypeLabel?.Text == string.Empty + _currentQuizLetter) ||
+                    (_currentQuizLetter == null && TypeLabel?.Text == _currentInstruction.MorsePhrase))
                 {
                     // Prevent pressing the Repeat Button
                     GetViewport().SetInputAsHandled();
@@ -218,7 +278,15 @@ public partial class Tutorial : Control,
                     _audioManager?.Play($"res://sounds/correct.wav", true,
                         0.9f + Random.Shared.NextSingle() / 20f, 0.9f + Random.Shared.NextSingle() / 10f);
 
-                    Receive(new DialogueFinishedMessage());
+                    if (_currentInstruction.IsQuiz &&
+                        _quizLettersLeft.Count > 0)
+                    {
+                        _ = NextLetterTimeoutAsync();
+                    }
+                    else
+                    {
+                        Receive(new DialogueFinishedMessage());
+                    }
                 }
                 else
                 {
@@ -239,6 +307,12 @@ public partial class Tutorial : Control,
         }
     }
 
+    private async Task NextLetterTimeoutAsync()
+    {
+        await ToSignal(GetTree().CreateTimer(2.0), "timeout");
+        NextQuizLetter();
+    }
+
     public void Receive(DialogueFinishedMessage message)
     {
         _tutorialStage++;
@@ -248,12 +322,24 @@ public partial class Tutorial : Control,
             _sentCurrentInstruction = false;
             _messageDelay = _currentInstruction.Delay;
         }
+        else
+        {
+            // TODO: Navigate to Game Scene...
+            Debug.WriteLine("First Tutorial Completed!");
+        }
     }
 
     public void OnRepeatPhraseButtonPressed()
     {
+        if (_currentQuizLetter != null)
+        {
+            _morseManager?.Queue(string.Empty + _currentQuizLetter);
+
+            // Disable the button while the phrase plays
+            RepeatPhraseButton?.Disabled = true;
+        }
         // Allows player to replay phrase at their leisure when "AutoRepeat" is off in Tutorial Instruction
-        if (_currentInstruction != null &&
+        else if (_currentInstruction != null &&
             _currentInstruction.MorsePhrase != null)
         {
             // Note: We don't use the Phrase Gap here as it won't automatically repeat after!
