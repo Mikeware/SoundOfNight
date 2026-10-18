@@ -23,6 +23,9 @@ public partial class Tutorial : Control,
     [Export]
     public Label? TypeLabel { get; set; }
 
+    [Export]
+    public Label? CaretLabel { get; set; }
+
     private AudioManager? _audioManager;
     private MorseManager? _morseManager;
 
@@ -106,6 +109,9 @@ public partial class Tutorial : Control,
     {
         _morseManager?.Process(delta);
 
+        // Use delay as it continually counts and can be our "time" factor, occasionally it'll get mucked with but fine...
+        CaretLabel?.Modulate = CaretLabel.Modulate with { A = 0.5f * (1.0f + MathF.Sin((float)(2f * Math.PI * _messageDelay))) };
+
         _messageDelay -= delta;
         if (_messageDelay <= 0 &&
             _currentInstruction != null &&
@@ -116,8 +122,10 @@ public partial class Tutorial : Control,
             // Reset Text
             LetterLabel?.Text = string.Empty;
             MorseLabel?.Text = string.Empty;
+            CaretLabel?.Modulate = Colors.White;
             TypeLabel?.Modulate = Colors.White;
             TypeLabel?.Text = string.Empty;
+            CaretLabel?.Visible = _currentInstruction.NeedInput;
 
             // Display Next Message
             // TODO: Do we want a flag for not playing the dialogue sounds?
@@ -151,6 +159,7 @@ public partial class Tutorial : Control,
             {
                 pressedKey = true;
                 TypeLabel?.Text = TypeLabel.Text.Substring(0, TypeLabel.Text.Length - 1);
+                CaretLabel?.Modulate = Colors.White;
                 TypeLabel?.Modulate = Colors.White;
             }
             else if (eventKey.Keycode == Key.Space)
@@ -171,6 +180,7 @@ public partial class Tutorial : Control,
                 if (TypeLabel?.Text == _currentInstruction.MorsePhrase)
                 {
                     // Success
+                    CaretLabel?.Modulate = Color.FromHtml("FFB800");
                     TypeLabel?.Modulate = Color.FromHtml("FFB800");
                     _audioManager?.Play($"res://sounds/correct.wav", true,
                         0.9f + Random.Shared.NextSingle() / 20f, 0.9f + Random.Shared.NextSingle() / 10f);
@@ -180,6 +190,7 @@ public partial class Tutorial : Control,
                 else
                 {
                     // Failure
+                    CaretLabel?.Modulate = Colors.Red;
                     TypeLabel?.Modulate = Colors.Red;
                     _audioManager?.Play($"res://sounds/incorrect.wav", true,
                         0.9f + Random.Shared.NextSingle() / 20f, 0.9f + Random.Shared.NextSingle() / 10f);
