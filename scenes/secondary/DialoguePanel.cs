@@ -104,6 +104,9 @@ public partial class DialoguePanel : PanelContainer,
 
     public void Receive(DisplayDialogueMessage message)
     {
+        // Clear prior text
+        DialogueLabel?.Text = string.Empty;
+
         GetTree().Paused = true;
         Visible = true;
 

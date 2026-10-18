@@ -7,7 +7,8 @@ using LD60.scenes.secondary;
 
 namespace LD60.scenes;
 
-public partial class Tutorial : Control
+public partial class Tutorial : Control,
+    IRecipient<DialogueFinished>
 {
     [Export]
     public Label? LetterLabel { get; set; }
@@ -21,19 +22,30 @@ public partial class Tutorial : Control
     private AudioManager? _audioManager;
     private MorseManager? _morseManager;
 
+    private double _messageDelay = 2.0;
+    private int _messageNumber = 1;
+    private string[]? _nextMessage =
+    [
+        "Hi, to play this game you need to learn Morse Code.",
+        "We can teach you. If you know already, press Skip."
+    ];
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         _audioManager = GetNode<AudioManager>("/root/AudioManager");
         _morseManager = new(_audioManager);
         _morseManager.QueueCompleted += MorseManagerOnQueueCompleted;
+    }
 
-        // Kick us off
-        MorseManagerOnQueueCompleted(this, EventArgs.Empty);
-        StrongReferenceMessenger.Default.Send<DisplayDialogueMessage>(new([
-            "Hi, to play this game you need to learn Morse Code.",
-            "We can teach you. If you know already, press Skip."
-        ]));
+    public override void _EnterTree()
+    {
+        StrongReferenceMessenger.Default.Register<DialogueFinished>(this);
+    }
+
+    public override void _ExitTree()
+    {
+        StrongReferenceMessenger.Default.Unregister<DialogueFinished>(this);
     }
 
     private void MorseManagerOnQueueCompleted(object? sender, EventArgs e)
@@ -46,6 +58,14 @@ public partial class Tutorial : Control
     public override void _Process(double delta)
     {
         _morseManager?.Process(delta);
+
+        _messageDelay -= delta;
+        if (_messageDelay <= 0 && _nextMessage != null)
+        {
+            StrongReferenceMessenger.Default.Send<DisplayDialogueMessage>(new(_nextMessage));
+            _messageNumber++;
+            _nextMessage = null;
+        }
     }
 
     public override void _Input(InputEvent @event)
@@ -72,6 +92,21 @@ public partial class Tutorial : Control
             {
                 // TODO: Submit (if needed)
             }
+        }
+    }
+
+    public void Receive(DialogueFinished message)
+    {
+        switch (_messageNumber)
+        {
+            case 2:
+                _messageDelay = 0.5f;
+                _nextMessage =
+                [
+                    "Morse Code is a system of encoding messages using ",
+                    "dots and dashes, short and long audio tones."
+                ];
+                break;
         }
     }
 }

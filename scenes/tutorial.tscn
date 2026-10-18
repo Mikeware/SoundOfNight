@@ -13,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme = ExtResource("1_8ho6b")
 script = ExtResource("2_4kmhl")
 LetterLabel = NodePath("CenterContainer/VBoxContainer/LetterLabel")
@@ -26,15 +27,30 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 32
 
-[node name="DialoguePanel" parent="MarginContainer" unique_id=1402561022 instance=ExtResource("3_6yjpi")]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=6763352]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="DialoguePanel" parent="MarginContainer/VBoxContainer" unique_id=1402561022 instance=ExtResource("3_6yjpi")]
 visible = false
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="SkipTutorialButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1805949330]
+process_mode = 3
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 1
+text = "SKIP TUTORIALS"
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=344498001]
 layout_mode = 1
@@ -43,6 +59,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=173687593]
 layout_mode = 2
