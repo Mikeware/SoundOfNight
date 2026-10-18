@@ -6,7 +6,7 @@
 [ext_resource type="FontFile" uid="uid://p0m1whedymi3" path="res://fonts/morse.ttf" id="4_8j387"]
 [ext_resource type="LabelSettings" uid="uid://y4ulh8edh65x" path="res://fonts/label_title.tres" id="5_5dhap"]
 
-[node name="Game" type="Control" unique_id=917608868 node_paths=PackedStringArray("LetterLabel", "MorseLabel", "TypeLabel", "CaretLabel", "RepeatPhraseButton")]
+[node name="Game" type="Control" unique_id=917608868 node_paths=PackedStringArray("LetterLabel", "MorseLabel", "TypeLabel", "CaretLabel", "RepeatPhraseButton", "StopPlaybackButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +20,8 @@ LetterLabel = NodePath("CenterContainer/VBoxContainer/LetterLabel")
 MorseLabel = NodePath("CenterContainer/VBoxContainer/MorseLabel")
 TypeLabel = NodePath("CenterContainer/VBoxContainer/HBoxContainer/TypeLabel")
 CaretLabel = NodePath("CenterContainer/VBoxContainer/HBoxContainer/CaretLabel")
-RepeatPhraseButton = NodePath("MarginContainer/RepeatPhraseButton")
+RepeatPhraseButton = NodePath("MarginContainer/VBoxContainer/RepeatPhraseButton")
+StopPlaybackButton = NodePath("MarginContainer/VBoxContainer/StopPhraseButton")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1138901915]
 layout_mode = 1
@@ -36,12 +37,17 @@ theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 16
 
 [node name="DialoguePanel" parent="MarginContainer" unique_id=1402561022 instance=ExtResource("3_kh4a2")]
+visible = false
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_vertical = 8
 mouse_filter = 2
 
-[node name="RepeatPhraseButton" type="Button" parent="MarginContainer" unique_id=1498949854]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1606469940]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RepeatPhraseButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1498949854]
 process_mode = 3
 visible = false
 layout_mode = 2
@@ -50,6 +56,16 @@ size_flags_vertical = 0
 mouse_filter = 1
 theme_override_font_sizes/font_size = 18
 text = "REPEAT PHRASE"
+
+[node name="StopPhraseButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=809884541]
+process_mode = 3
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 1
+theme_override_font_sizes/font_size = 18
+text = "STOP PLAYBACK"
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=344498001]
 layout_mode = 1
@@ -91,4 +107,5 @@ theme_override_font_sizes/font_size = 32
 text = "_"
 horizontal_alignment = 1
 
-[connection signal="pressed" from="MarginContainer/RepeatPhraseButton" to="." method="OnRepeatPhraseButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/RepeatPhraseButton" to="." method="OnRepeatPhraseButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/StopPhraseButton" to="." method="OnStopPlaybackButtonPressed"]

@@ -27,6 +27,9 @@ public partial class Game : Control,
     [Export]
     public Button? RepeatPhraseButton { get; set; }
 
+    [Export]
+    public Button? StopPlaybackButton { get; set; }
+
     private AudioManager? _audioManager;
     private MorseManager? _morseManager;
 
@@ -138,7 +141,9 @@ public partial class Game : Control,
             TypeLabel?.Text = string.Empty;
             CaretLabel?.Visible = _currentInstruction.NeedInput;
             RepeatPhraseButton?.Visible = _currentInstruction.NeedInput;
+            StopPlaybackButton?.Visible = _currentInstruction.NeedInput;
             RepeatPhraseButton?.Disabled = true; // will be turned on after initial play of phrase
+            StopPlaybackButton?.Disabled = false;
 
             // Display Next Message
             // TODO: Do we want a flag for not playing the dialogue sounds?
@@ -263,7 +268,13 @@ public partial class Game : Control,
 
             // Disable the button while the phrase plays
             RepeatPhraseButton?.Disabled = true;
+            StopPlaybackButton?.Disabled = false;
         }
+    }
+
+    public void OnStopPlaybackButtonPressed()
+    {
+        _morseManager?.Clear();
     }
 }
 

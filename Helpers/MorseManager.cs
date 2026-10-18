@@ -24,6 +24,14 @@ public class MorseManager(AudioManager audioManager)
 
     public event EventHandler? QueueCompleted;
 
+    public void Clear()
+    {
+        _encodedQueue.Clear();
+
+        // TODO: Provide arguments that indicate this was manually stopped
+        QueueCompleted?.Invoke(this, EventArgs.Empty);
+    }
+
     public void Queue(string phrase, bool prosign = false)
     {
         // If we're already processing anything, put a word gap next first
