@@ -44,9 +44,7 @@ horizontal_alignment = 1
 [node name="Hint" type="Label" parent="CenterContainer/Content" unique_id=2108368752]
 layout_mode = 2
 text = "- This game requires SOUND -
-
-Please turn on your Audio Device!
-
+Please turn on your Audio Device! 
 - Can you hear me now? -"
 horizontal_alignment = 1
 
