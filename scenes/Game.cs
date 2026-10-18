@@ -11,6 +11,8 @@ public partial class Game : Control,
     IRecipient<DialogueFinishedMessage>
 {
     private const int NumberOfKeySounds = 3;
+    // How much to insert between repeats of the morse phrase (used only when displaying a new letter)
+    private const string PhraseGap = "  ";
 
     [Export]
     public Label? LetterLabel { get; set; }
@@ -113,8 +115,17 @@ public partial class Game : Control,
 
     private void MorseManagerOnQueueCompleted(object? sender, EventArgs e)
     {
-        // Re-enable play again button after playing phrase
-        RepeatPhraseButton?.Disabled = false;
+        // If displaying a new letter, repeat the phrase automatically
+        if (_currentInstruction is { DisplayPhrase: true })
+        {
+            _morseManager?.Queue(_currentInstruction.MorsePhrase + PhraseGap);
+        }
+        else
+        {
+            // Re-enable play again button after playing phrase
+            RepeatPhraseButton?.Disabled = false;
+            StopPlaybackButton?.Disabled = true;
+        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -156,9 +167,14 @@ public partial class Game : Control,
                 {
                     MorseLabel?.Text = _currentInstruction.MorsePhrase;
                     LetterLabel?.Text = _currentInstruction.MorsePhrase;
-                }
 
-                _morseManager?.Queue(_currentInstruction.MorsePhrase, _currentInstruction.IsProsign);
+                    // Ensure we stop any playing morse, but will re-trigger audio with gap for repeat
+                    _morseManager?.Clear();
+                }
+                else
+                {
+                    _morseManager?.Queue(_currentInstruction.MorsePhrase, _currentInstruction.IsProsign);
+                }
             }
         }
     }
