@@ -335,6 +335,11 @@ public partial class Game : Control,
         _isPlaybackPaused = !_isPlaybackPaused;
         PausePlaybackButton?.Text = _isPlaybackPaused ? "UNPAUSE" : "PAUSE";
     }
+
+    public void OnExitButtonPressed()
+    {
+        Shell.Instance?.TransitionTo("res://shell.tscn");
+    }
 }
 
 // Delay is the time before the message is displayed after the last one is dismissed.
