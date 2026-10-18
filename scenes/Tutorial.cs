@@ -222,6 +222,8 @@ public partial class Tutorial : Control,
         TypeLabel?.Modulate = Colors.White;
         TypeLabel?.Text = string.Empty;
         RepeatPhraseButton?.Disabled = true; // will be turned on after initial play of phrase
+        // TODO: Kind of a hack to ensure we only do input when not playing success jingle from input
+        _currentInstruction = _currentInstruction! with { NeedInput = true };
 
         _currentQuizLetter = _quizLettersLeft.Dequeue();
         MorseLabel?.Text = $"{_currentQuizLetter}";
@@ -281,6 +283,8 @@ public partial class Tutorial : Control,
                     if (_currentInstruction.IsQuiz &&
                         _quizLettersLeft.Count > 0)
                     {
+                        // TODO: This kind of a hack to prevent cheesing the quiz by spamming enter...
+                        _currentInstruction = _currentInstruction with { NeedInput = false };
                         _ = NextLetterTimeoutAsync();
                     }
                     else
