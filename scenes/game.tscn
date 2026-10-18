@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://dwjbxhs5gssqb"]
+
+[ext_resource type="Theme" uid="uid://bxctn28btu3wo" path="res://resources/default_theme.tres" id="1_dflkw"]
+[ext_resource type="Script" uid="uid://dyyh3vvd2u0q" path="res://scenes/Game.cs" id="2_xrrf0"]
+[ext_resource type="PackedScene" uid="uid://j84gg7m5cdxi" path="res://scenes/secondary/dialoguePanel.tscn" id="3_kh4a2"]
+[ext_resource type="FontFile" uid="uid://p0m1whedymi3" path="res://fonts/morse.ttf" id="4_8j387"]
+[ext_resource type="LabelSettings" uid="uid://y4ulh8edh65x" path="res://fonts/label_title.tres" id="5_5dhap"]
+
+[node name="Game" type="Control" unique_id=917608868 node_paths=PackedStringArray("LetterLabel", "MorseLabel", "TypeLabel", "CaretLabel", "RepeatPhraseButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_dflkw")
+script = ExtResource("2_xrrf0")
+LetterLabel = NodePath("CenterContainer/VBoxContainer/LetterLabel")
+MorseLabel = NodePath("CenterContainer/VBoxContainer/MorseLabel")
+TypeLabel = NodePath("CenterContainer/VBoxContainer/HBoxContainer/TypeLabel")
+CaretLabel = NodePath("CenterContainer/VBoxContainer/HBoxContainer/CaretLabel")
+RepeatPhraseButton = NodePath("MarginContainer/RepeatPhraseButton")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1138901915]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="DialoguePanel" parent="MarginContainer" unique_id=1402561022 instance=ExtResource("3_kh4a2")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="RepeatPhraseButton" type="Button" parent="MarginContainer" unique_id=1498949854]
+process_mode = 3
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 1
+theme_override_font_sizes/font_size = 18
+text = "REPEAT PHRASE"
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=344498001]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=173687593]
+layout_mode = 2
+
+[node name="MorseLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1984558259]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_8j387")
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+
+[node name="LetterLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=2104229462]
+layout_mode = 2
+label_settings = ExtResource("5_5dhap")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=180541498]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="TypeLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=278822699]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+
+[node name="CaretLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=209332848]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "_"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="MarginContainer/RepeatPhraseButton" to="." method="OnRepeatPhraseButtonPressed"]

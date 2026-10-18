@@ -16,6 +16,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("1_8ho6b")
 script = ExtResource("2_4kmhl")
+NextScenePath = "uid://dwjbxhs5gssqb"
 LetterLabel = NodePath("CenterContainer/VBoxContainer/LetterLabel")
 MorseLabel = NodePath("CenterContainer/VBoxContainer/MorseLabel")
 TypeLabel = NodePath("BottomCenterContainer/MarginContainer/HBoxContainer/TypeLabel")

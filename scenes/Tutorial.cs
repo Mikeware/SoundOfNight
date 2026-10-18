@@ -17,6 +17,9 @@ public partial class Tutorial : Control,
     // How much to insert between repeats of the morse phrase
     private const string PhraseGap = "  ";
 
+    [Export(PropertyHint.File, "*.tscn")]
+    public string NextScenePath { get; set; } = "res://scenes/game.tscn";
+
     [Export]
     public Label? LetterLabel { get; set; }
 
@@ -114,6 +117,8 @@ public partial class Tutorial : Control,
 
         // Trigger initial dialogue to keep it all in one place
         Receive(new DialogueFinishedMessage());
+
+        Shell.Instance?.PreloadScene(NextScenePath);
     }
 
     public override void _EnterTree()
@@ -336,8 +341,10 @@ public partial class Tutorial : Control,
         }
         else
         {
-            // TODO: Navigate to Game Scene...
-            Debug.WriteLine("First Tutorial Completed!");
+            // TUTORIAL COMPLETED!
+            RepeatPhraseButton?.Disabled = true;
+            SkipTutorialsButton?.Disabled = true;
+            Shell.Instance?.TransitionTo(NextScenePath);
         }
     }
 
@@ -365,8 +372,10 @@ public partial class Tutorial : Control,
     public void OnSkipTutorialsPressed()
     {
         // TODO: Save skip tutorials to config
-        // TODO: Navigate to Game Scene...
-        Debug.WriteLine("TODO: Skipping Tutorials");
+
+        // Navigate to Game Scene...
+        SkipTutorialsButton?.Disabled = true;
+        Shell.Instance?.TransitionTo(NextScenePath);
     }
 }
 
@@ -374,7 +383,7 @@ public partial class Tutorial : Control,
 // Message is the text to display (2 lines max)
 public record TutorialInstruction(double Delay, string[] Message,
     // Morse Phrase is the character in Morse to display (if any)
-    // Display Phrase shows the ASCII character equivelent and not just the dots and dashes
+    // Display Phrase shows the ASCII character equivalent and not just the dots and dashes
     string? MorsePhrase = null, bool DisplayPhrase = false,
     // Need Input means the player has to type the characters to proceed
     // IsQuiz is the final bit of the tutorial where MorsePhrase characters are picked at random and the player must type them (supersedes NeedInput)
