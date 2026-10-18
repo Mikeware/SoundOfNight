@@ -45,7 +45,7 @@ public partial class Setup : Control
         }
 
         // Put a small gap before we start again
-        _morseManager?.Queue(" SOS");
+        _morseManager?.Queue(" SOS", true);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

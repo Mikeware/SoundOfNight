@@ -24,7 +24,7 @@ public class MorseManager(AudioManager audioManager)
 
     public event EventHandler? QueueCompleted;
 
-    public void Queue(string phrase)
+    public void Queue(string phrase, bool prosign = false)
     {
         // If we're already processing anything, put a word gap next first
         if (_encodedQueue.Count > 0)
@@ -61,7 +61,15 @@ public class MorseManager(AudioManager audioManager)
             // Only put a letter gap if we have more stuff
             if (i != uPhrase.Length - 1)
             {
-                AddLetterGap();
+                if (prosign)
+                {
+                    // And it's not being encoded as a prosign: https://en.wikipedia.org/wiki/Prosigns_for_Morse_code
+                    _encodedQueue.Enqueue(SymbolGap);
+                }
+                else
+                {
+                    AddLetterGap();
+                }
             }
         }
     }
