@@ -162,7 +162,9 @@ public partial class Tutorial : Control,
                 CaretLabel?.Modulate = Colors.White;
                 TypeLabel?.Modulate = Colors.White;
             }
-            else if (eventKey.Keycode == Key.Space)
+            // Only allow Space after other letters
+            else if (eventKey.Keycode == Key.Space &&
+                     TypeLabel?.Text.Length > 0)
             {
                 pressedKey = true;
                 TypeLabel?.Text += " ";
