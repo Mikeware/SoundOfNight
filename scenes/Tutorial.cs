@@ -103,6 +103,13 @@ public partial class Tutorial : Control,
         {
             _sentCurrentInstruction = true;
 
+            // Reset Text
+            LetterLabel?.Text = string.Empty;
+            MorseLabel?.Text = string.Empty;
+            TypeLabel?.Modulate = Colors.White;
+            TypeLabel?.Text = string.Empty;
+
+            // Display Next Message
             // TODO: Do we want a flag for not playing the dialogue sounds?
             StrongReferenceMessenger.Default.Send<DisplayDialogueMessage>(new(_currentInstruction.Message, !_currentInstruction.NeedInput));
 
@@ -154,6 +161,7 @@ public partial class Tutorial : Control,
                 if (TypeLabel?.Text == _currentInstruction.MorsePhrase)
                 {
                     // Success
+                    TypeLabel?.Modulate = Color.FromHtml("FFB800");
                     _audioManager?.Play($"res://sounds/correct.wav", true,
                         0.9f + Random.Shared.NextSingle() / 20f, 0.9f + Random.Shared.NextSingle() / 10f);
 
