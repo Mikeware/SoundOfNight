@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Godot;
@@ -87,10 +88,12 @@ public partial class AudioManager : Node
             // Play sound
             channel.Stream = GD.Load(data.Path) as AudioStream;
             channel.PitchScale = data.Pitch;
-            channel.VolumeDb = data.Volume;
+            channel.VolumeDb = LinearToDb(data.Volume);
             channel.Play();
         }
     }
+
+    private float LinearToDb(float value) => value > 0f ? 20.0f * MathF.Log(value) / MathF.Log(10.0f) : -80.0f;
 
     private record QueuedAudioParameters(NodePath Path, float Pitch, float Volume);
 }
