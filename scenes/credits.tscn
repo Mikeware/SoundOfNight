@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://chd77ycauimkf"]
+
+[ext_resource type="Theme" uid="uid://bxctn28btu3wo" path="res://resources/default_theme.tres" id="1_0bpdh"]
+[ext_resource type="Script" uid="uid://41yhurie6k87" path="res://scenes/Credits.cs" id="2_2ckv8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2ckv8"]
+
+[node name="Credits" type="Control" unique_id=1411365873 node_paths=PackedStringArray("CreditsLabel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_0bpdh")
+script = ExtResource("2_2ckv8")
+NextScenePath = "uid://bf3xaaoxstfsn"
+CreditsLabel = NodePath("CreditsLabel")
+
+[node name="CreditsLabel" type="Label" parent="." unique_id=1419584292]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 31.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 6
+theme_override_constants/paragraph_spacing = 4
+theme_override_constants/shadow_offset_x = -2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 24
+label_settings = SubResource("LabelSettings_2ckv8")
+horizontal_alignment = 1

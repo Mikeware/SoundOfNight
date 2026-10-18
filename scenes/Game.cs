@@ -14,6 +14,9 @@ public partial class Game : Control,
     // How much to insert between repeats of the morse phrase (used only when displaying a new letter)
     private const string PhraseGap = "  ";
 
+    [Export(PropertyHint.File, "*.tscn")]
+    public string NextScenePath { get; set; } = "res://scenes/credits.tscn";
+
     [Export]
     public Label? LetterLabel { get; set; }
 
@@ -108,6 +111,8 @@ public partial class Game : Control,
 
         // Trigger initial dialogue to keep it all in one place
         Receive(new DialogueFinishedMessage());
+
+        Shell.Instance?.PreloadScene(NextScenePath);
     }
 
     public override void _EnterTree()
@@ -275,8 +280,8 @@ public partial class Game : Control,
         }
         else
         {
-            // TODO: Navigate to Credits Scene...?
-            Debug.WriteLine("Game Completed!");
+            // Game completed: Navigate to Credits Scene...
+            Shell.Instance?.TransitionTo(NextScenePath);
         }
     }
 
