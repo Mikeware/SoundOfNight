@@ -10,7 +10,9 @@ namespace LD60.scenes;
 public partial class Tutorial : Control,
     IRecipient<DialogueFinishedMessage>
 {
-    public const int NumberOfKeySounds = 3;
+    private const int NumberOfKeySounds = 3;
+    // How much to insert between repeats of the morse phrase
+    private const string PhraseGap = "  ";
 
     [Export]
     public Label? LetterLabel { get; set; }
@@ -26,7 +28,6 @@ public partial class Tutorial : Control,
 
     private double _messageDelay;
     private int _tutorialStage = -1;
-    private string? _currentPhrase;
     private bool _sentCurrentInstruction;
     private TutorialInstruction? _currentInstruction;
 
@@ -56,10 +57,18 @@ public partial class Tutorial : Control,
             "Type the letters '[color=#FFB800]E[/color]' and '[color=#FFB800]T[/color]' on your keyboard.",
             "Then press [color=#FFB800]Enter[/color] to continue. Use [color=#FFB800]Backspace[/color] to correct."
         ], "ET", true, true),
+        new(1.5f, [
+            "[color=#FFB800]Great job![/color] Have you been writing these down?",
+            "It'll be a good thing to remember. What letter is this?"
+        ], "T", false, true),
+        new(1.5f, [
+            "[color=#FFB800]Good![/color] The letter '[color=#FFB800]S[/color]' is 3 dots '[color=#FFB800]...[/color]'",
+            "The letter '[color=#FFB800]O[/color]' is 3 dashes '[color=#FFB800]---[/color]', type it:"
+        ], "SOS", true, true),
         new(0.5f, [
-            "[color=#FFB800]Great job![/color]",
-            "..."
-        ]),
+            "'[color=#FF0000]SOS[/color]' is used as the start of a distress signal.",
+            "It gets condensed as a [color=#FFB800]prosign[/color], we'll cover that later.",
+        ], "SOS", IsProsign: true),
     ];
 
     // Called when the node enters the scene tree for the first time.
@@ -85,9 +94,10 @@ public partial class Tutorial : Control,
 
     private void MorseManagerOnQueueCompleted(object? sender, EventArgs e)
     {
-        if (_currentPhrase != null)
+        if (_currentInstruction != null &&
+            _currentInstruction.MorsePhrase != null)
         {
-            _morseManager?.Queue(_currentPhrase);
+            _morseManager?.Queue(_currentInstruction.MorsePhrase + PhraseGap, _currentInstruction.IsProsign);
         }
     }
 
@@ -122,8 +132,7 @@ public partial class Tutorial : Control,
                     LetterLabel?.Text = _currentInstruction.MorsePhrase;
                 }
 
-                _currentPhrase = _currentInstruction.MorsePhrase + "  ";
-                _morseManager?.Queue(_currentPhrase);
+                _morseManager?.Queue(_currentInstruction.MorsePhrase + PhraseGap, _currentInstruction.IsProsign);
             }
         }
     }
@@ -198,4 +207,4 @@ public partial class Tutorial : Control,
     }
 }
 
-public record TutorialInstruction(double Delay, string[] Message, string? MorsePhrase = null, bool DisplayPhrase = false, bool NeedInput = false);
+public record TutorialInstruction(double Delay, string[] Message, string? MorsePhrase = null, bool DisplayPhrase = false, bool NeedInput = false, bool IsQuiz = false, bool IsProsign = false);
