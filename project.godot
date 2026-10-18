@@ -12,10 +12,16 @@ custom_features="dotnet"
 
 [application]
 
-config/name="LD60"
+config/name="Sound of Night"
+config/description="Ludum Dare 60 Compo Game, Theme: Old Tech
+Learn Morse Code and decode messages to unravel a mystery."
 config/version="0.9"
 run/main_scene="uid://bf3xaaoxstfsn"
 config/features=PackedStringArray("4.7", "C#")
+boot_splash/bg_color=Color(0, 0.36078432, 0.49803922, 1)
+boot_splash/image="uid://btguvk71srsbc"
+config/icon="uid://bytyw5ynch6up"
+config/windows_native_icon="res://resources/icon.ico"
 
 [autoload]
 
