@@ -6,7 +6,7 @@
 [ext_resource type="LabelSettings" uid="uid://y4ulh8edh65x" path="res://fonts/label_title.tres" id="3_cq4me"]
 [ext_resource type="FontFile" uid="uid://p0m1whedymi3" path="res://fonts/morse.ttf" id="4_6yjpi"]
 
-[node name="Tutorial" type="Control" unique_id=1306760794 node_paths=PackedStringArray("LetterLabel", "MorseLabel", "TypeLabel", "CaretLabel")]
+[node name="Tutorial" type="Control" unique_id=1306760794 node_paths=PackedStringArray("LetterLabel", "MorseLabel", "TypeLabel", "CaretLabel", "SkipTutorialsButton", "RepeatPhraseButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,6 +20,8 @@ LetterLabel = NodePath("CenterContainer/VBoxContainer/LetterLabel")
 MorseLabel = NodePath("CenterContainer/VBoxContainer/MorseLabel")
 TypeLabel = NodePath("BottomCenterContainer/MarginContainer/HBoxContainer/TypeLabel")
 CaretLabel = NodePath("BottomCenterContainer/MarginContainer/HBoxContainer/CaretLabel")
+SkipTutorialsButton = NodePath("MarginContainer/VBoxContainer/SkipTutorialButton")
+RepeatPhraseButton = NodePath("MarginContainer/RepeatPhraseButton")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1138901915]
 layout_mode = 1
@@ -32,6 +34,7 @@ mouse_filter = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=6763352]
 layout_mode = 2
@@ -53,6 +56,16 @@ size_flags_vertical = 0
 mouse_filter = 1
 theme_override_font_sizes/font_size = 18
 text = "SKIP TUTORIALS"
+
+[node name="RepeatPhraseButton" type="Button" parent="MarginContainer" unique_id=1498949854]
+process_mode = 3
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+mouse_filter = 1
+theme_override_font_sizes/font_size = 18
+text = "REPEAT PHRASE"
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=344498001]
 layout_mode = 1
@@ -85,6 +98,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="BottomCenterContainer" unique_id=1702128908]
 layout_mode = 2
@@ -105,3 +119,6 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "_"
 horizontal_alignment = 1
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/SkipTutorialButton" to="." method="OnSkipTutorialsPressed"]
+[connection signal="pressed" from="MarginContainer/RepeatPhraseButton" to="." method="OnRepeatPhraseButtonPressed"]

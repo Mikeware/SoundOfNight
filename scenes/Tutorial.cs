@@ -26,6 +26,12 @@ public partial class Tutorial : Control,
     [Export]
     public Label? CaretLabel { get; set; }
 
+    [Export]
+    public Button? SkipTutorialsButton { get; set; }
+
+    [Export]
+    public Button? RepeatPhraseButton { get; set; }
+
     private AudioManager? _audioManager;
     private MorseManager? _morseManager;
 
@@ -49,25 +55,25 @@ public partial class Tutorial : Control,
             "[color=#FFB800]dots[/color] '[color=#FFB800].[/color]' and [color=#FFB800]dashes[/color] '[color=#FFB800]-[/color]', short and long audio tones."
         ]),
         new(0.5f, [
-            "Dots (or dits) are [color=#FFB800]one unit[/color] long",
+            "Dots (or dits) are [color=#FFB800]one unit[/color] long.",
             "Dashes (or dahs) are [color=#FFB800]three[/color] units long."
         ], "ET", false), // single . and dash -
         new(0.5f, [
-            "A single '[color=#FFB800].[/color]' is the letter '[color=#FFB800]E[/color]'.",
-            "And a single '[color=#FFB800]-[/color]' is the letter '[color=#FFB800]T[/color]'."
+            "A single '[color=#FFB800].[/color]' is the letter '[color=#FFB800]E[/color]'. One '[color=#FFB800]-[/color]' is a '[color=#FFB800]T[/color]'.",
+            "Next, morse plays once. Use [color=#FFB800]Repeat Phrase[/color] to play again."
         ], "ET", true),
         new(0.5f, [
             "Type the letters '[color=#FFB800]E[/color]' and '[color=#FFB800]T[/color]' on your keyboard.",
             "Then press [color=#FFB800]Enter[/color] to continue. Use [color=#FFB800]Backspace[/color] to correct."
-        ], "ET", true, true),
+        ], "ET", true, true, AutoRepeat: false),
         new(1.5f, [
             "[color=#FFB800]Great job![/color] Have you been writing these down?",
             "It'll be a good thing to remember. What letter is this?"
-        ], "T", false, true),
-        new(1.5f, [
+        ], "T", false, true, AutoRepeat: false),
+        new(2.0f, [
             "[color=#FFB800]Good![/color] The letter '[color=#FFB800]S[/color]' is 3 dots '[color=#FFB800]...[/color]'",
             "The letter '[color=#FFB800]O[/color]' is 3 dashes '[color=#FFB800]---[/color]', type it:"
-        ], "SOS", true, true),
+        ], "SOS", true, true, AutoRepeat: false),
         new(0.5f, [
             "'[color=#FF0000]SOS[/color]' is used as the start of a distress signal.",
             "It gets condensed as a [color=#FFB800]prosign[/color], we'll cover that later.",
@@ -83,7 +89,7 @@ public partial class Tutorial : Control,
         new(0.5f, [
             "We've added a [color=#FFB800]Space[/color]! Words create a [color=#FFB800]7 unit[/color] gap!",
             "Gaps between are important; pay [color=#FFB800]close attention[/color] to them!"
-        ], "IM ME", true, true),
+        ], "IM ME", true, true, AutoRepeat: false),
     ];
 
     // Called when the node enters the scene tree for the first time.
@@ -110,9 +116,14 @@ public partial class Tutorial : Control,
     private void MorseManagerOnQueueCompleted(object? sender, EventArgs e)
     {
         if (_currentInstruction != null &&
-            _currentInstruction.MorsePhrase != null)
+            _currentInstruction.MorsePhrase != null &&
+            _currentInstruction.AutoRepeat)
         {
             _morseManager?.Queue(_currentInstruction.MorsePhrase + PhraseGap, _currentInstruction.IsProsign);
+        }
+        else
+        {
+            RepeatPhraseButton?.Disabled = false;
         }
     }
 
@@ -138,6 +149,8 @@ public partial class Tutorial : Control,
             TypeLabel?.Modulate = Colors.White;
             TypeLabel?.Text = string.Empty;
             CaretLabel?.Visible = _currentInstruction.NeedInput;
+            RepeatPhraseButton?.Visible = !_currentInstruction.AutoRepeat;
+            RepeatPhraseButton?.Disabled = true; // will be turned on after initial play of phrase
 
             // Display Next Message
             // TODO: Do we want a flag for not playing the dialogue sounds?
@@ -178,6 +191,9 @@ public partial class Tutorial : Control,
             else if (eventKey.Keycode == Key.Space &&
                      TypeLabel?.Text.Length > 0)
             {
+                // Prevent pressing the Repeat Button
+                GetViewport().SetInputAsHandled();
+
                 pressedKey = true;
                 TypeLabel?.Text += " ";
             }
@@ -193,6 +209,9 @@ public partial class Tutorial : Control,
                 pressedKey = true;
                 if (TypeLabel?.Text == _currentInstruction.MorsePhrase)
                 {
+                    // Prevent pressing the Repeat Button
+                    GetViewport().SetInputAsHandled();
+
                     // Success
                     CaretLabel?.Modulate = Color.FromHtml("FFB800");
                     TypeLabel?.Modulate = Color.FromHtml("FFB800");
@@ -230,6 +249,38 @@ public partial class Tutorial : Control,
             _messageDelay = _currentInstruction.Delay;
         }
     }
+
+    public void OnRepeatPhraseButtonPressed()
+    {
+        // Allows player to replay phrase at their leisure when "AutoRepeat" is off in Tutorial Instruction
+        if (_currentInstruction != null &&
+            _currentInstruction.MorsePhrase != null)
+        {
+            // Note: We don't use the Phrase Gap here as it won't automatically repeat after!
+            _morseManager?.Queue(_currentInstruction.MorsePhrase, _currentInstruction.IsProsign);
+
+            // Disable the button while the phrase plays
+            RepeatPhraseButton?.Disabled = true;
+        }
+    }
+
+    public void OnSkipTutorialsPressed()
+    {
+        // TODO: Save skip tutorials to config
+        // TODO: Navigate to Game Scene...
+        Debug.WriteLine("TODO: Skipping Tutorials");
+    }
 }
 
-public record TutorialInstruction(double Delay, string[] Message, string? MorsePhrase = null, bool DisplayPhrase = false, bool NeedInput = false, bool IsQuiz = false, bool IsProsign = false);
+// Delay is the time before the message is displayed after the last one is dismissed.
+// Message is the text to display (2 lines max)
+public record TutorialInstruction(double Delay, string[] Message,
+    // Morse Phrase is the character in Morse to display (if any)
+    // Display Phrase shows the ASCII character equivelent and not just the dots and dashes
+    string? MorsePhrase = null, bool DisplayPhrase = false,
+    // Need Input means the player has to type the characters to proceed
+    // IsQuiz is the final bit of the tutorial where MorsePhrase characters are picked at random and the player must type them (supersedes NeedInput)
+    bool NeedInput = false, bool IsQuiz = false,
+    // IsProsign is passed to MorseManager to reduce letter gap
+    // AutoRepeat is on by default and continually repeats the phrase audio with the PhraseGap, if off, button appears to have player trigger audio again, it will play once by default
+    bool IsProsign = false, bool AutoRepeat = true);
