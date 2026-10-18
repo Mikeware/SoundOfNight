@@ -68,7 +68,7 @@ public partial class Tutorial : Control,
         ], "ET", false), // single . and dash -
         new(0.5f, [
             "A single '[color=#FFB800].[/color]' is the letter '[color=#FFB800]E[/color]'. One '[color=#FFB800]-[/color]' is a '[color=#FFB800]T[/color]'.",
-            "Next, morse plays once. Use [color=#FFB800]Repeat Phrase[/color] to play again."
+            "Next time, morse plays once. Use [color=#FFB800]Repeat Phrase[/color] to play."
         ], "ET", true),
         new(0.5f, [
             "Type the letters '[color=#FFB800]E[/color]' and '[color=#FFB800]T[/color]' on your keyboard.",

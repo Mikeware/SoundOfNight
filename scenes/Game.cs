@@ -66,8 +66,8 @@ public partial class Game : Control,
             "[i]Use your [color=#FFB800]keyboard[/color] to decode the message, then press [color=#FFB800]Enter[/color][/i]."
         ], "MEMO TO ME", true),
         new(1.5f, [
-            "That wasn't so hard, I thought. But there's more coming.",
-            "[i]You know the drill now. Can you figure out this message?[/i]."
+            "That wasn't so hard. But there's something new here...",
+            "[i]You know the drill now. But can you figure out this message[/i]?"
         ], "TIME IS LOST", true),
         new(2.0f, [
             "[i][color=#FFB800]Great job![/color] You've learned a new [color=#FFB800]letter[/color][/i]!",
@@ -99,6 +99,7 @@ public partial class Game : Control,
         ]),
         new(0.5f, [
             "[i]Made [color=#FFB800]by hand[/color] in less than 48-hours with [color=#FFB800]C#[/color] and [color=#FFB800]Godot[/color][/i].",
+            "[i]Web export with C# made possible by [color=#FFB800]2dog[/color][/i]."
         ]),
     ];
 
