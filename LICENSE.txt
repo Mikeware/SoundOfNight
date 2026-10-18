@@ -1,0 +1,7 @@
+Copyright 2026 Mikeware
+All Rights Reserved
+
+Code shared for educational and learning purposes for Ludum Dare 60.
+Please contact questions at mikeware.com for any requests.
+
+This code cannot be used to train AI.
